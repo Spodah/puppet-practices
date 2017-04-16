@@ -79,19 +79,19 @@ First the boring stuff: Creating the right directories and making a copy of the 
 
 Next, I created init.pp with nano, using /tempplates/ssh_config.erb(thusfar unmodified) as a template to copy back into /etc/ssh/ssh_config
 Then to test it:
-    ```kubuntu@kubuntu:~/puppet-practices/ssh_client$ sudo puppet apply --modulepath '/home/kubuntu/puppet-practices/' -e class{"ssh_client:"}
+```    kubuntu@kubuntu:~/puppet-practices/ssh_client$ sudo puppet apply --modulepath '/home/kubuntu/puppet-practices/' -e class{"ssh_client:"}
     Notice: Compiled catalog for kubuntu.elisa in environment production in 0.16 seconds
     Notice: Finished catalog run in 0.02 seconds
     kubuntu@kubuntu:~/puppet-practices/ssh_client$ ```
 
 It appeared to be working, but as it makes no modifications yet. Next step is to modify it, then. As a relatively simple change I changed it to allow IPv4 connections only. First, test to see if IPv6 is working:
-    ```kubuntu@kubuntu:~/puppet-practices/ssh_client$ ssh ::1
+```    kubuntu@kubuntu:~/puppet-practices/ssh_client$ ssh ::1
     The authenticity of host '::1 (::1)' can't be established.
     ECDSA key fingerprint is SHA256:9MQH4HUsHlj0YRiIjI1TxCi622KsTRqij0XUXGciE6E.
     Are you sure you want to continue connecting (yes/no)? no
     Host key verification failed.```
 Then a minor modification to the ssh_config.erb and the module is ready to be tested:
-    ```kubuntu@kubuntu:~/puppet-practices/ssh_client$ sudo puppet apply --modulepath '/home/kubuntu/puppet-practices/' -e class{"ssh_client:"}
+```    kubuntu@kubuntu:~/puppet-practices/ssh_client$ sudo puppet apply --modulepath '/home/kubuntu/puppet-practices/' -e class{"ssh_client:"}
     Notice: Compiled catalog for kubuntu.elisa in environment production in 0.17 seconds
     Notice: /Stage[main]/Ssh_client/File[/etc/ssh/ssh_config]/content: content changed '{md5}ac848ff6a465188e7dd91cf91dbe4889' to '{md5}d0ca711c518dab46093eec26108f9a87'
     Notice: Finished catalog run in 0.05 seconds
