@@ -12,5 +12,13 @@ class ufw {
 		path => "/bin/:/usr/bin/:/sbin/:/usr/sbin/",
 		unless => 'sudo ufw status verbose|grep "Status: active"',
 	}
+	file{'/etc/ufw/user.rules':
+		content =>template('ufw/user.rules.erb'),
+		notify =>Service['ufw']
+	}
+	file{'/etc/ufw/user6.rules':
+		content =>template('ufw/user6.rules.erb'),
+		notify =>Service['ufw']
+	}
 }
 
