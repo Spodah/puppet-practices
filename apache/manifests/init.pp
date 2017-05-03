@@ -5,27 +5,33 @@ class apache {
 	}
 	file{'/etc/apache2/sites-available/example.com.conf':
 		content =>template('apache/000-default.conf.erb'),
-		notify =>Service['apache2']
+		notify =>Service['apache2'],
+		require =>Package['apache2'],
 	}
 	file{'/etc/apache2/sites-available/000-default.conf':
 		backup =>true,
-		ensure =>absent
+		ensure =>absent,
+                require =>Package['apache2'],
 	}
 	file{'/etc/apache2/sites-enabled/example.com.conf':
 		content =>template('apache/se-000-default.conf.erb'),
-		notify =>Service['apache2']
+		notify =>Service['apache2'],
+                require =>Package['apache2'],
 	}
 	file{'/etc/apache2/sites-enabled/000-default.conf':
 		backup =>true,
-		ensure =>absent
+		ensure =>absent,
+                require =>Package['apache2'],
 	}
 	file{'/etc/apache2/apache2.conf':
 		content =>template('apache/apache2.conf.erb'),
-		notify =>Service['apache2']
+		notify =>Service['apache2'],
+                require =>Package['apache2'],
 	}
 	service{'apache2':
 		ensure =>true,
 		enable =>true,
-		provider =>systemd
+                require =>Package['apache2'],
+		provider =>systemd,
 	}
 }
