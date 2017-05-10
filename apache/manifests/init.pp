@@ -4,7 +4,7 @@ class apache {
 		allowcdrom =>true
 	}
 	file{'/etc/apache2/sites-available/example.com.conf':
-		content =>template('apache/000-default.conf.erb'),
+		content =>template('apache/example.com.conf.erb'),
 		notify =>Service['apache2'],
 		require =>Package['apache2'],
 	}
@@ -14,7 +14,7 @@ class apache {
                 require =>Package['apache2'],
 	}
 	file{'/etc/apache2/sites-enabled/example.com.conf':
-		content =>template('apache/se-000-default.conf.erb'),
+		content =>template('apache/se-example.com.conf.erb'),
 		notify =>Service['apache2'],
                 require =>Package['apache2'],
 	}
@@ -27,6 +27,12 @@ class apache {
 		content =>template('apache/apache2.conf.erb'),
 		notify =>Service['apache2'],
                 require =>Package['apache2'],
+	}
+	file{'/home/juuso/example':
+		ensure =>directory,
+	}
+	file{'/home/juuso/example/index.html':
+		content =>template('apache/index.html.erb'),
 	}
 	service{'apache2':
 		ensure =>true,
